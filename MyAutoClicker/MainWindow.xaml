@@ -7,6 +7,8 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="525">
     <Grid>
-        
+        <ListBox HorizontalAlignment="Left" Height="180" Margin="51,109,0,0" VerticalAlignment="Top" Width="398" SelectionChanged="ListBox_SelectionChanged"/>
+        <Button Content="Set Mouse Location" HorizontalAlignment="Left" Height="20" Margin="10,18,0,0" VerticalAlignment="Top" Width="136" Click="Button_Click"/>
+        <Button Content="Run" HorizontalAlignment="Left" Height="20" Margin="361,18,0,0" VerticalAlignment="Top" Width="126" Click="Button_Click"/>
     </Grid>
 </Window>

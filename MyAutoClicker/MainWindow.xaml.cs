@@ -20,9 +20,26 @@ namespace MyAutoClicker
     /// </summary>
     public partial class MainWindow : Window
     {
+        int retro;
         public MainWindow()
         {
             InitializeComponent();
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            if(sender.GetType().Equals(typeof(Button)))
+            {
+                Button b = sender as Button;
+                if (b == null) return;
+                ChooseMouseLocationWindow window = new ChooseMouseLocationWindow();
+                window.Show();
+            }
+        }
+
+        private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
         }
     }
 }
