@@ -13,5 +13,6 @@ namespace MyAutoClicker
     /// </summary>
     public partial class App : Application
     {
+        
     }
 }
