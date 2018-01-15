@@ -6,9 +6,13 @@
         xmlns:local="clr-namespace:MyAutoClicker"
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="525">
-    <Grid>
-        <ListBox HorizontalAlignment="Left" Height="180" Margin="51,109,0,0" VerticalAlignment="Top" Width="398"/>
-        <Button Content="Set Mouse Location" HorizontalAlignment="Left" Height="20" Margin="10,18,0,0" VerticalAlignment="Top" Width="136" Command ="{Binding UpdateCommand }"/>
-        <Button Content="Run" HorizontalAlignment="Left" Height="20" Margin="361,18,0,0" VerticalAlignment="Top" Width="126"/>
-    </Grid>
+    <DockPanel>
+        <UniformGrid DockPanel.Dock="Top" Rows="2" Columns="2">
+            <Button Content="Set Mouse Location" Grid.Column="0" Margin="10,10,10,10" Command ="{Binding ClickCommand }"/>
+            <Button Content="Run" Grid.Column="1" Grid.Row="1" Margin="10,10,10,10" />
+            <Button Content="Save Mouse Locations" Grid.Column="0" Grid.Row="2" Margin="10,10,10,10"></Button>
+        </UniformGrid>
+
+        <ListBox ItemsSource="{Binding Path=AllPoints}" DockPanel.Dock="Bottom" Height="180" Margin="50,50,50,50" VerticalAlignment="Top" Width="398"/>
+    </DockPanel>
 </Window>

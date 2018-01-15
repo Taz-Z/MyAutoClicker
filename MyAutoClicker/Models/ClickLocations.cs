@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
@@ -11,12 +13,10 @@ namespace MyAutoClicker.Models
     public class ClickLocations : INotifyPropertyChanged
 
     {
-        private List<Point> allPoints;
         private Point currPoint;
 
         public ClickLocations()
         {
-            allPoints = new List<Point>();
         }
 
         public Point CurrentPoint
@@ -28,12 +28,12 @@ namespace MyAutoClicker.Models
             set
             {
                 currPoint = value;
-                allPoints.Add(currPoint);
-                OnPropertyChanged("I dont get it");
+                OnPropertyChanged("CurrentPoint");
 
             }
 
         }
+
 
         #region INotifyPropertyChanged Members
 

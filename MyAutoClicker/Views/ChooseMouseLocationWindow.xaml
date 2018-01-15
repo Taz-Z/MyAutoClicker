@@ -6,5 +6,6 @@
         xmlns:local="clr-namespace:MyAutoClicker"
         mc:Ignorable="d"
         Title="Window1" Height="300" Width="300">
-    <TextBlock TextAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Center" TextWrapping="Wrap" Height="19" Width="200" Margin="43,98,49,152" RenderTransformOrigin="0.504,0.495"><Run Text="CLICK ANYWHERE ON SCREEN"/></TextBlock>
+
+    <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" TextAlignment="Center" FontSize="30"> Click Anywhere</TextBlock>
 </Window>

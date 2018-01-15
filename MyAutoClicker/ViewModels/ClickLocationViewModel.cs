@@ -11,6 +11,7 @@ using static MyAutoClicker.Views.ViewFactory;
 using Gma.System.MouseKeyHook;
 using System.Windows.Forms;
 using System.Windows;
+using System.Collections.ObjectModel;
 
 namespace MyAutoClicker.ViewModels
 {
@@ -21,9 +22,11 @@ namespace MyAutoClicker.ViewModels
 
         public ClickLocationViewModel()
         {
-            UpdateCommand = new ClickLocationUpdateCommand(this);
+            ClickCommand = new ClickLocationUpdateCommand(this);
+            AllPoints = new ObservableCollection<Point>();
             allClicks = new ClickLocations();
         }
+        public ObservableCollection<Point> AllPoints { set; get; }
 
         public ClickLocations AllClicks
         {
@@ -35,13 +38,11 @@ namespace MyAutoClicker.ViewModels
 
         public void UpdateList()
         {
-            Window view  = ViewFactory.CreateNewView(ViewType.ClickAnywhere);
-            view.Show();
+            Console.WriteLine("I am here");
             Subscribe();
-            
         }
 
-        public ICommand UpdateCommand
+        public ICommand ClickCommand
         {
             get;
             private set;
@@ -64,8 +65,8 @@ namespace MyAutoClicker.ViewModels
 
         private void GlobalHookMouseDownExt(object sender, MouseEventExtArgs e)
         {
-            Console.WriteLine("Y axis: {0}, X axis: {1}", e.Y, e.X);
             allClicks.CurrentPoint = new Point(e.X, e.Y);
+            AllPoints.Add(allClicks.CurrentPoint);
             Console.Write(sender.GetType());
             Unsubscribe();
 
