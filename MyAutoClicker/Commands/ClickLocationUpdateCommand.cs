@@ -10,6 +10,7 @@ namespace MyAutoClicker.Commands
         /// Initializes a ClickVewLocationUpdataCommand
         /// </summary>
         public ClickLocationUpdateCommand(ClickLocationViewModel viewModel) : base(viewModel) { }
+
         /// <summary>
         /// Suscribes listener to listen to mouse clicks
         /// </summary>

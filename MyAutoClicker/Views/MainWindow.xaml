@@ -8,7 +8,7 @@
         Title="MainWindow" Height="350" Width="525">
     <DockPanel>
         <UniformGrid DockPanel.Dock="Top" Rows="2" Columns="2">
-            <Button Content="Set Mouse Location" Grid.Column="0" Margin="10,10,10,10" Command ="{Binding ClickCommand }"/>
+            <Button Content="Set Mouse Location" Grid.Column="0" Margin="10,10,10,10" Command ="{Binding ChooseClickCommand }"/>
             <Button Content="Run" Grid.Column="1" Grid.Row="1" Margin="10,10,10,10" />
             <Button Content="Save Mouse Locations" Grid.Column="0" Grid.Row="2" Margin="10,10,10,10" Command="{Binding SaveClickCommand}"></Button>
         </UniformGrid>

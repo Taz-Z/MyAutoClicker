@@ -105,9 +105,10 @@ namespace MyAutoClicker.ViewModels
         /// </summary>
         public void Unsubscribe()
         {
+            AllPoints.RemoveAt(AllPoints.Count - 1);
             m_GlobalHook.MouseDownExt -= GlobalHookMouseDownExt;
             m_GlobalHook.KeyPress -= GlobalHookKeyPress;
-            m_GlobalHook.Dispose();
+            m_GlobalHook.Dispose();   
         }
         #endregion
 
