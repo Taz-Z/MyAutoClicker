@@ -7,22 +7,26 @@ using System.Windows;
 
 namespace MyAutoClicker.Views
 {
+    /// <summary>
+    /// Skeleton structure for if/when multiple views may be needed
+    /// </summary>
     public static class ViewFactory
     {
         public static Window CreateNewView(ViewType type)
         {
             switch(type)
             {
-                case ViewType.ClickAnywhere:
-                  return new ChooseMouseLocationWindow();
                 default:
                     return null;
             }
         }
     }
 
+    /// <summary>
+    /// Skeleton enum to label multiple views
+    /// </summary>
     public enum ViewType
     {
-        ClickAnywhere
+        
     }
 }

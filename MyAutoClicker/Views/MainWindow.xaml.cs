@@ -15,13 +15,13 @@ namespace MyAutoClicker.Views
     /// </summary>
     public partial class MainWindow : Window
     {
+        /// <summary>
+        /// Initialized main Window and sets data contexts
+        /// </summary>
         public MainWindow()
         {
-            
             InitializeComponent();
             DataContext = new ClickLocationViewModel();
         }
-
-
     }
 }

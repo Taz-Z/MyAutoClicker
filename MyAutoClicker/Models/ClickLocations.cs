@@ -10,30 +10,31 @@ using System.Windows;
 
 namespace MyAutoClicker.Models
 {
-    public class ClickLocations : INotifyPropertyChanged
+    public class ClickLocation : INotifyPropertyChanged
 
     {
-        private Point currPoint;
+        private Point clickPoint;
 
-        public ClickLocations()
-        {
-        }
-
-        public Point CurrentPoint
+        /// <summary>
+        /// Initializes a ClickLocation class
+        /// </summary>
+        public ClickLocation() { }
+        
+        /// <summary>
+        /// New clickpoint when user clicks get updated here, part of binding
+        /// </summary>
+        public Point ClickPoint
         {
             get
             {
-                return currPoint;
+                return clickPoint;
             }
             set
             {
-                currPoint = value;
-                OnPropertyChanged("CurrentPoint");
-
+                clickPoint = value;
+                OnPropertyChanged("ClickPoint");
             }
-
         }
-
 
         #region INotifyPropertyChanged Members
 

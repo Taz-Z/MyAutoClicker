@@ -4,28 +4,17 @@ using MyAutoClicker.ViewModels;
 
 namespace MyAutoClicker.Commands
 {
-    internal class ListSaveCommand : ICommand
+    internal class ListSaveCommand : GeneralCommand
     {
-        private ClickLocationViewModel viewModel;
+        /// <summary>
+        /// Initializes ListSaveCommand
+        /// </summary>
+        public ListSaveCommand(ClickLocationViewModel viewModel) : base(viewModel) { }
 
-        public ListSaveCommand(ClickLocationViewModel viewModel)
-        {
-            this.viewModel = viewModel;
-        }
-
-
-        public event EventHandler CanExecuteChanged
-        {
-            add { CommandManager.RequerySuggested += value; }
-            remove { CommandManager.RequerySuggested -= value; }
-        }
-
-        public bool CanExecute(object parameter)
-        {
-            return true;
-        }
-
-        public void Execute(object parameter)
+        /// <summary>
+        /// Unsuscribes the moeus listener to stagnate listbox
+        /// </summary>
+        public override void Execute(object parameter)
         {
             viewModel.Unsubscribe();
         }
