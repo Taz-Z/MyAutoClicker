@@ -1,13 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using MyAutoClicker.Commands;
 using MyAutoClicker.Models;
-using MyAutoClicker.Views;
 using System.Windows.Input;
-using static MyAutoClicker.Views.ViewFactory;
 using Gma.System.MouseKeyHook;
 using System.Windows.Forms;
 using System.Windows;
