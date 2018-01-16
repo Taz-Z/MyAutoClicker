@@ -5,15 +5,20 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MyAutoClicker"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
+        Title="AutoClicker" Height="350" Width="525">
     <DockPanel>
         <UniformGrid DockPanel.Dock="Top" Rows="2" Columns="2">
             <Button Content="Set Mouse Location" Grid.Column="0" Margin="10,10,10,10" Command ="{Binding ChooseClickCommand }"></Button>
             <Button Content="Run" Grid.Column="1" Grid.Row="1" Margin="10,10,10,10" Command="{Binding ClickCommand}"></Button>
             <Button Content="Save Mouse Locations" Grid.Column="0" Grid.Row="2" Margin="10,10,10,10" Command="{Binding SaveClickCommand}"></Button>
-            <Button Content="Test" Grid.Column="1" Grid.Row="2" Margin="10,10,10,10" Command="{Binding TestCommand}"></Button>
+            <StackPanel Grid.Column="1" Grid.Row="2" Margin="10,10,10,10" Orientation="Horizontal">
+                <TextBlock Text="From" Margin="10,10,10,10" ></TextBlock>
+                <TextBox Margin="10,10,10,10" MinWidth="50" Text="{Binding LowerTimeRange}"></TextBox>
+                <TextBlock Text="To" Margin="10,10,10,10" ></TextBlock>
+                <TextBox Margin="10,10,10,10" MinWidth="50" Text ="{Binding UpperTimeRange}"></TextBox>
+            </StackPanel>
         </UniformGrid>
 
-        <ListBox ItemsSource="{Binding Path=AllPoints}" Height="180" Margin="50,50,50,1" VerticalAlignment="Top" Width="398"/>
+        <ListBox ItemsSource="{Binding Path=AllPoints}" Height="180" Margin="25,25,25,25" VerticalAlignment="Top" Width="398" DockPanel.Dock="Top"/>
     </DockPanel>
 </Window>

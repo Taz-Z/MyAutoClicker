@@ -7,14 +7,17 @@ using System.Windows.Forms;
 using System.Windows;
 using System.Collections.ObjectModel;
 using System.Runtime.InteropServices;
+using System.ComponentModel;
 
 namespace MyAutoClicker.ViewModels
 {
-    class ClickLocationViewModel
+    class ClickLocationViewModel : INotifyPropertyChanged
     {
 
-        private ClickLocation clickLocation;
+        private MainModel clickLocation;
         private IKeyboardMouseEvents m_GlobalHook;
+        private int lowerTimeRange;
+        private int upperTimeRange;
 
         /// <summary>
         /// Used to manipulate mouse 
@@ -32,7 +35,7 @@ namespace MyAutoClicker.ViewModels
             TestCommand = new TestCommand(this);
             ClickCommand = new DoClicksCommand(this);
             AllPoints = new ObservableCollection<Point>();
-            clickLocation = new ClickLocation();
+            clickLocation = new MainModel();
         }
 
         #region Properties
@@ -45,7 +48,7 @@ namespace MyAutoClicker.ViewModels
         /// <summary>
         /// Model
         /// </summary>
-        public ClickLocation CurrentClickLocation
+        public MainModel CurrentClickLocation
         {
             get
             {
@@ -86,6 +89,36 @@ namespace MyAutoClicker.ViewModels
         {
             get;
             private set;
+        }
+
+        /// <summary>
+        /// Lower Time Range
+        /// </summary>
+        public int LowerTimeRange
+        {
+            get
+            {
+                return lowerTimeRange;
+            }
+            set
+            {
+                lowerTimeRange = value;
+                OnPropertyChanged("LowerRangeTime");
+            }
+        }
+
+        //Upper Time Range
+        public int UpperTimeRange
+        {
+            get
+            {
+                return upperTimeRange;
+            }
+            set
+            {
+                upperTimeRange = value;
+                OnPropertyChanged("UpperRangeTime");
+            }
         }
         #endregion
 
@@ -141,8 +174,7 @@ namespace MyAutoClicker.ViewModels
         /// </summary>
         private void GlobalHookMouseDownExt(object sender, MouseEventExtArgs e)
         {
-            clickLocation.ClickPoint = new Point(e.X, e.Y);
-            AllPoints.Add(clickLocation.ClickPoint);
+            AllPoints.Add(new Point(e.X, e.Y));
             // uncommenting the following line will suppress the middle mouse button click
             // if (e.Buttons == MouseButtons.Middle) { e.Handled = true; }
         }
@@ -156,6 +188,21 @@ namespace MyAutoClicker.ViewModels
             m_GlobalHook.MouseDownExt -= GlobalHookMouseDownExt;
             m_GlobalHook.KeyPress -= GlobalHookKeyPress;
             m_GlobalHook.Dispose();   
+        }
+        #endregion
+
+        #region INotifyPropertyChanged Members
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private void OnPropertyChanged(string propertyName)
+        {
+            PropertyChangedEventHandler handler = PropertyChanged;
+            if (handler != null)
+            {
+                handler(this, new PropertyChangedEventArgs(propertyName));
+
+            }
         }
         #endregion
 
