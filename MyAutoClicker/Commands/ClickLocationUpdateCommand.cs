@@ -25,7 +25,7 @@ namespace MyAutoClicker.Commands
 
         public void Execute(object parameter)
         {
-            viewModel.UpdateList();
+            viewModel.Subscribe();
         }
     }
 }

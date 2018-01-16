@@ -23,6 +23,7 @@ namespace MyAutoClicker.ViewModels
         public ClickLocationViewModel()
         {
             ClickCommand = new ClickLocationUpdateCommand(this);
+            SaveClickCommand = new ListSaveCommand(this);
             AllPoints = new ObservableCollection<Point>();
             allClicks = new ClickLocations();
         }
@@ -36,13 +37,13 @@ namespace MyAutoClicker.ViewModels
             }
         }
 
-        public void UpdateList()
+        public ICommand ClickCommand
         {
-            Console.WriteLine("I am here");
-            Subscribe();
+            get;
+            private set;
         }
 
-        public ICommand ClickCommand
+        public ICommand SaveClickCommand
         {
             get;
             private set;
@@ -67,8 +68,6 @@ namespace MyAutoClicker.ViewModels
         {
             allClicks.CurrentPoint = new Point(e.X, e.Y);
             AllPoints.Add(allClicks.CurrentPoint);
-            Console.Write(sender.GetType());
-            Unsubscribe();
 
 
 

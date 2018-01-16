@@ -59,7 +59,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Commands\ClickLocationUpdateCommand.cs" />
-    <Compile Include="Commands\ListUpdateCommand.cs" />
+    <Compile Include="Commands\ListSaveCommand.cs" />
     <Compile Include="Views\ChooseMouseLocationWindow.xaml.cs">
       <DependentUpon>ChooseMouseLocationWindow.xaml</DependentUpon>
     </Compile>
@@ -108,7 +108,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

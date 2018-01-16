@@ -1,18 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using MyAutoClicker.ViewModels;
 
 namespace MyAutoClicker.Commands
 {
-    internal class ListUpdateCommand : ICommand
+    internal class ListSaveCommand : ICommand
     {
         private ClickLocationViewModel viewModel;
 
-        public ListUpdateCommand(ClickLocationViewModel viewModel)
+        public ListSaveCommand(ClickLocationViewModel viewModel)
         {
             this.viewModel = viewModel;
         }
@@ -31,7 +27,7 @@ namespace MyAutoClicker.Commands
 
         public void Execute(object parameter)
         {
-            
+            viewModel.Unsubscribe();
         }
     }
 }
