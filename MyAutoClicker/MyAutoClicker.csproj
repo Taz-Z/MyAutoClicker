@@ -15,7 +15,7 @@
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
+    <PlatformTarget>x86</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -59,8 +59,10 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Commands\ClickLocationUpdateCommand.cs" />
+    <Compile Include="Commands\DoClicksCommand.cs" />
     <Compile Include="Commands\GeneralCommand.cs" />
     <Compile Include="Commands\ListSaveCommand.cs" />
+    <Compile Include="Commands\TestCommand.cs" />
     <Compile Include="ViewModels\ClickLocationViewModel.cs" />
     <Compile Include="Views\ViewFactory.cs" />
     <Page Include="Views\MainWindow.xaml">
