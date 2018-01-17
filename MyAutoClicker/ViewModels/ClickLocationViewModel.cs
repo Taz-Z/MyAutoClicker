@@ -8,6 +8,7 @@ using System.Windows;
 using System.Collections.ObjectModel;
 using System.Runtime.InteropServices;
 using System.ComponentModel;
+using System.Diagnostics;
 
 namespace MyAutoClicker.ViewModels
 {
@@ -22,7 +23,7 @@ namespace MyAutoClicker.ViewModels
         /// <summary>
         /// Used to manipulate mouse 
         ///</summary>
-        [DllImport("user32.dll", CharSet = CharSet.Auto, CallingConvention = CallingConvention.Winapi)]
+        [DllImport("user32.dll", CharSet = CharSet.Auto, CallingConvention = CallingConvention.StdCall)]
         public static extern void mouse_event(long dwFlags, long dx, long dy, long cButtons, long dwExtraInfo);
 
         /// <summary>
@@ -122,6 +123,9 @@ namespace MyAutoClicker.ViewModels
         }
         #endregion
 
+
+        #region Methods
+
         /// <summary>
         /// Clicks the mouse at all points specified in AllPoints
         /// </summary>
@@ -135,6 +139,13 @@ namespace MyAutoClicker.ViewModels
             //Call the imported function to click the mouse
             foreach(Point p in AllPoints)
             {
+                int timeToWait = new Random().Next(lowerTimeRange, UpperTimeRange + 1); //gets a random time to wait between each click.
+                Stopwatch stopwatch = new Stopwatch();
+                stopwatch.Start();
+                Console.WriteLine("On point " + p);
+                while (stopwatch.ElapsedMilliseconds != timeToWait) { }
+                stopwatch.Stop();
+                stopwatch.Restart();
                 mouse_event(MOUSEEVENTF_LEFTDOWN | MOUSEEVENTF_LEFTUP, (long)p.X,  (long)p.Y, 0, 0);
             }
            
@@ -147,6 +158,9 @@ namespace MyAutoClicker.ViewModels
         {
             Console.WriteLine("DOES IT WORK LOL");
         }
+
+        #endregion
+
 
         #region MouseHooks
 
