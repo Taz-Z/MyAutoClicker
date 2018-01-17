@@ -63,6 +63,7 @@
     <Compile Include="Commands\GeneralCommand.cs" />
     <Compile Include="Commands\ListSaveCommand.cs" />
     <Compile Include="Commands\TestCommand.cs" />
+    <Compile Include="Converters\InverseBooleanConverter.cs" />
     <Compile Include="ViewModels\ClickLocationViewModel.cs" />
     <Compile Include="Views\ViewFactory.cs" />
     <Page Include="Views\MainWindow.xaml">

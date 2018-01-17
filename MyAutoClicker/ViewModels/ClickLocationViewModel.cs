@@ -14,11 +14,13 @@ namespace MyAutoClicker.ViewModels
 {
     class ClickLocationViewModel : INotifyPropertyChanged
     {
-
         private MainModel clickLocation;
         private IKeyboardMouseEvents m_GlobalHook;
         private int lowerTimeRange;
         private int upperTimeRange;
+        private bool selectingPoints;
+        private bool abletoRun;
+        private int clickNumber; //For testing purposed, remove later
 
         /// <summary>
         /// Used to manipulate mouse 
@@ -27,7 +29,7 @@ namespace MyAutoClicker.ViewModels
         public static extern void mouse_event(long dwFlags, long dx, long dy, long cButtons, long dwExtraInfo);
 
         /// <summary>
-        /// Initializes the view model and sets commands
+        /// Initializes the view model, sets commands and defaults
         /// </summary>
         public ClickLocationViewModel()
         {
@@ -37,6 +39,13 @@ namespace MyAutoClicker.ViewModels
             ClickCommand = new DoClicksCommand(this);
             AllPoints = new ObservableCollection<Point>();
             clickLocation = new MainModel();
+
+            LowerTimeRange = 0;
+            UpperTimeRange = 1000;
+            SelectingPoints = false;
+            AbletoRun = false;
+
+
         }
 
         #region Properties
@@ -44,7 +53,11 @@ namespace MyAutoClicker.ViewModels
         /// <summary>
         /// Bound to update ListBox
         /// </summary>
-        public ObservableCollection<Point> AllPoints { set; get; }
+        public ObservableCollection<Point> AllPoints
+        {
+            set;
+            get;
+        }
 
         /// <summary>
         /// Model
@@ -108,7 +121,9 @@ namespace MyAutoClicker.ViewModels
             }
         }
 
-        //Upper Time Range
+        /// <summary>
+        /// Upper Time Range
+        /// </summary>
         public int UpperTimeRange
         {
             get
@@ -121,6 +136,39 @@ namespace MyAutoClicker.ViewModels
                 OnPropertyChanged("UpperRangeTime");
             }
         }
+
+        /// <summary>
+        /// Button Enabler/Disabler
+        /// </summary>
+        public bool SelectingPoints
+        {
+            get
+            {
+                return selectingPoints;
+            }
+            set
+            {
+                selectingPoints = value;
+                OnPropertyChanged("SelectingPoints");
+            }
+        }
+
+        /// <summary>
+        /// Button Enabler/Disabler
+        /// </summary>
+        public bool AbletoRun
+        {
+            get
+            {
+                return abletoRun; ;
+            }
+            set
+            {
+                abletoRun = value;
+                OnPropertyChanged("AbletoRun");
+            }
+        }
+
         #endregion
 
 
@@ -143,7 +191,7 @@ namespace MyAutoClicker.ViewModels
                 Stopwatch stopwatch = new Stopwatch();
                 stopwatch.Start();
                 Console.WriteLine("On point " + p);
-                while (stopwatch.ElapsedMilliseconds != timeToWait) { }
+                while (stopwatch.ElapsedMilliseconds < timeToWait) { } //Wait for a random amout of time
                 stopwatch.Stop();
                 stopwatch.Restart();
                 mouse_event(MOUSEEVENTF_LEFTDOWN | MOUSEEVENTF_LEFTUP, (long)p.X,  (long)p.Y, 0, 0);
@@ -156,7 +204,7 @@ namespace MyAutoClicker.ViewModels
         /// </summary>
         public void Test()
         {
-            Console.WriteLine("DOES IT WORK LOL");
+            Console.WriteLine("You have clicked the button {0} times", clickNumber++);
         }
 
         #endregion
@@ -169,10 +217,12 @@ namespace MyAutoClicker.ViewModels
         /// </summary>
         public void Subscribe()
         {
+            AbletoRun = false;
             // Note: for the application hook, use the Hook.AppEvents() instead
             m_GlobalHook = Hook.GlobalEvents();
             m_GlobalHook.MouseDownExt += GlobalHookMouseDownExt;
             m_GlobalHook.KeyPress += GlobalHookKeyPress;
+            
         }
 
         /// <summary>
@@ -188,6 +238,8 @@ namespace MyAutoClicker.ViewModels
         /// </summary>
         private void GlobalHookMouseDownExt(object sender, MouseEventExtArgs e)
         {
+            AbletoRun = false;
+            SelectingPoints = true;
             AllPoints.Add(new Point(e.X, e.Y));
             // uncommenting the following line will suppress the middle mouse button click
             // if (e.Buttons == MouseButtons.Middle) { e.Handled = true; }
@@ -198,6 +250,8 @@ namespace MyAutoClicker.ViewModels
         /// </summary>
         public void Unsubscribe()
         {
+            SelectingPoints = false;
+            AbletoRun = true;
             AllPoints.RemoveAt(AllPoints.Count - 1);
             m_GlobalHook.MouseDownExt -= GlobalHookMouseDownExt;
             m_GlobalHook.KeyPress -= GlobalHookKeyPress;

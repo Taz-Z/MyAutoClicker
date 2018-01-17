@@ -1,7 +1,4 @@
-﻿using System;
-using System.Windows.Input;
-using MyAutoClicker.ViewModels;
-
+﻿
 namespace MyAutoClicker.Commands
 {
     internal class ClickLocationUpdateCommand : GeneralCommand
@@ -9,7 +6,7 @@ namespace MyAutoClicker.Commands
         /// <summary>
         /// Initializes a ClickVewLocationUpdataCommand
         /// </summary>
-        public ClickLocationUpdateCommand(ClickLocationViewModel viewModel) : base(viewModel) { }
+        public ClickLocationUpdateCommand(MyAutoClicker.ViewModels.ClickLocationViewModel viewModel) : base(viewModel) { }
 
         /// <summary>
         /// Suscribes listener to listen to mouse clicks

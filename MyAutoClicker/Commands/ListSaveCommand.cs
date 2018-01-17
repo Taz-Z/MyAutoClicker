@@ -1,7 +1,4 @@
-﻿using System;
-using System.Windows.Input;
-using MyAutoClicker.ViewModels;
-
+﻿
 namespace MyAutoClicker.Commands
 {
     internal class ListSaveCommand : GeneralCommand
@@ -9,7 +6,7 @@ namespace MyAutoClicker.Commands
         /// <summary>
         /// Initializes ListSaveCommand
         /// </summary>
-        public ListSaveCommand(ClickLocationViewModel viewModel) : base(viewModel) { }
+        public ListSaveCommand(MyAutoClicker.ViewModels.ClickLocationViewModel viewModel) : base(viewModel) { }
 
         /// <summary>
         /// Unsuscribes the moeus listener to stagnate listbox
