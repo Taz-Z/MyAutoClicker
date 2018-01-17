@@ -21,6 +21,7 @@ namespace MyAutoClicker.ViewModels
         private bool selectingPoints;
         private bool abletoRun;
         private int clickNumber; //For testing purposed, remove later
+        private int position;
 
         /// <summary>
         /// Used to manipulate mouse 
@@ -105,6 +106,29 @@ namespace MyAutoClicker.ViewModels
             private set;
         }
 
+        public ICommand RemoveAllCommand
+        {
+            get;
+            private set;
+        }
+
+        public ICommand RemoveAtCommand
+        {
+            get;
+            private set;
+        }
+        public ICommand RemoveTopCommand
+        {
+            get;
+            private set;
+        }
+
+        public ICommand RemoveBottomCommand
+        {
+            get;
+            private set;
+        }
+
         /// <summary>
         /// Lower Time Range
         /// </summary>
@@ -169,6 +193,18 @@ namespace MyAutoClicker.ViewModels
             }
         }
 
+        public int Position
+        {
+            get
+            {
+                return position;
+            }
+            set
+            {
+                position = value;
+                OnPropertyChanged("Position");
+            }
+        }
         #endregion
 
 

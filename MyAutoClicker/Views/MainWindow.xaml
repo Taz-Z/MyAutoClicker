@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:MyAutoClicker"
         mc:Ignorable="d"
         ResizeMode="NoResize"
+        WindowState="{Binding WindowState, Mode=TwoWay}"
         Title="AutoClicker" Height="500" Width="500">
     <Window.Resources>
         <local:InverseBooleanConverter x:Key="InverseBooleanConverter" />
@@ -30,11 +31,11 @@
             </DockPanel>
         </UniformGrid>
         <UniformGrid DockPanel.Dock="Left" Rows="5" Margin="25,0,25,6.75">
-            <Button Content="Remove from position" Grid.Row="1" Margin="0,25,0,0" Command="{Binding RemoveAt}"></Button>
+            <Button Content="Remove from position" Grid.Row="1" Margin="0,25,0,0" Command="{Binding RemoveAtCommand}"></Button>
             <TextBox Margin="0,0,0,25" MinWidth="100" Grid.Row="2" Text="{Binding Position}"></TextBox>
-            <Button Content="Remove From Bottom" Margin="0,0,0,25" Grid.Row="3" Command="{Binding RemoveBottom}"></Button>
-            <Button Content="Remove From Top" Margin="0,0,0,25" Grid.Row="4" Command="{Binding RemoveTop}"></Button>
-            <Button Content="Remove all" Margin="0,0,0,25" Grid.Row="5" Command ="{Binding RemoveAll}"></Button>
+            <Button Content="Remove From Bottom" Margin="0,0,0,25" Grid.Row="3" Command="{Binding RemoveBottomCommand}"></Button>
+            <Button Content="Remove From Top" Margin="0,0,0,25" Grid.Row="4" Command="{Binding RemoveTopCommand}"></Button>
+            <Button Content="Remove all" Margin="0,0,0,25" Grid.Row="5" Command ="{Binding RemoveAllCommand}"></Button>
         </UniformGrid>
         <ListBox ItemsSource="{Binding Path=AllPoints}" Margin="0,25,25,30.75" DockPanel.Dock="Left"/>
     </DockPanel>
