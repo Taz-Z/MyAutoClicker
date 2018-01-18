@@ -9,6 +9,7 @@ using System.Collections.ObjectModel;
 using System.Runtime.InteropServices;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Windows;
 
 namespace MyAutoClicker.ViewModels
 {
@@ -20,8 +21,9 @@ namespace MyAutoClicker.ViewModels
         private int upperTimeRange;
         private bool selectingPoints;
         private bool abletoRun;
-        private int clickNumber; //For testing purposed, remove later
         private int position;
+        private int clickNumber; //For testing purposed, remove later
+        private WindowState windowState;
 
         /// <summary>
         /// Used to manipulate mouse 
@@ -34,18 +36,22 @@ namespace MyAutoClicker.ViewModels
         /// </summary>
         public ClickLocationViewModel()
         {
-            ChooseClickCommand = new ClickLocationUpdateCommand(this);
-            SaveClickCommand = new ListSaveCommand(this);
-            TestCommand = new TestCommand(this);
-            ClickCommand = new DoClicksCommand(this);
+            ChooseClickCommand = new RelayCommand(canExecute => true, Execute => Subscribe());
+            SaveClickCommand = new RelayCommand(canExecute => true, Execute => Unsubscribe());
+            TestCommand = new RelayCommand(canExecute => true, Execute => Test());
+            ClickCommand = new RelayCommand(canExecute => true, Execute => ClickAllPoints());
+            RemoveAtCommand = new RelayCommand(canExecute => true, Execute => RemoveAt(Position - 1));
+            RemoveTopCommand = new RelayCommand(canExecute => true, Execute => RemoveAt(0));
+            RemoveBottomCommand = new RelayCommand(canExecute => true, Execute => RemoveAt(AllPoints.Count - 1));
+            RemoveAllCommand = new RelayCommand(canExecute => true, Execute => AllPoints.Clear());
             AllPoints = new ObservableCollection<Point>();
             clickLocation = new MainModel();
 
             LowerTimeRange = 0;
             UpperTimeRange = 1000;
+            Position = 1;
             SelectingPoints = false;
             AbletoRun = false;
-
 
         }
 
@@ -62,73 +68,6 @@ namespace MyAutoClicker.ViewModels
 
         /// <summary>
         /// Model
-        /// </summary>
-        public MainModel CurrentClickLocation
-        {
-            get
-            {
-                return clickLocation;
-            }
-        }
-
-        /// <summary>
-        /// Command to choose location of mouse clicks
-        /// </summary>
-        public ICommand ChooseClickCommand
-        {
-            get;
-            private set;
-        }
-
-        /// <summary>
-        /// Saves location of all mouse click
-        /// </summary>
-        public ICommand SaveClickCommand
-        {
-            get;
-            private set;
-        }
-
-        /// <summary>
-        /// Command for testing, will remove to unit tests later
-        /// </summary>
-        public ICommand TestCommand
-        {
-            get;
-            private set;
-        }
-        /// <summary>
-        /// Command to start clicking where specified
-        /// </summary>
-        public ICommand ClickCommand
-        {
-            get;
-            private set;
-        }
-
-        public ICommand RemoveAllCommand
-        {
-            get;
-            private set;
-        }
-
-        public ICommand RemoveAtCommand
-        {
-            get;
-            private set;
-        }
-        public ICommand RemoveTopCommand
-        {
-            get;
-            private set;
-        }
-
-        public ICommand RemoveBottomCommand
-        {
-            get;
-            private set;
-        }
-
         /// <summary>
         /// Lower Time Range
         /// </summary>
@@ -193,6 +132,9 @@ namespace MyAutoClicker.ViewModels
             }
         }
 
+        /// <summary>
+        /// Position of element user wants to delete
+        /// </summary>
         public int Position
         {
             get
@@ -205,21 +147,120 @@ namespace MyAutoClicker.ViewModels
                 OnPropertyChanged("Position");
             }
         }
+
+        /// <summary>
+        /// Model obj
+        /// </summary>
+        public MainModel CurrentClickLocation
+        {
+            get
+            {
+                return clickLocation;
+            }
+        }
+
+        public WindowState StateofWindow
+        {
+            get
+            {
+                return windowState;
+            }
+            set
+            {
+                windowState = value;
+                OnPropertyChanged("StateofWindow");
+            }
+        }
+
         #endregion
 
+        #region Commands
+
+        /// <summary>
+        /// Command to choose location of mouse clicks
+        /// </summary>
+        public ICommand ChooseClickCommand
+        {
+            get;
+            private set;
+        }
+
+        /// <summary>
+        /// Saves location of all mouse click
+        /// </summary>
+        public ICommand SaveClickCommand
+        {
+            get;
+            private set;
+        }
+
+        /// <summary>
+        /// Command for testing, will remove to unit tests later
+        /// </summary>
+        public ICommand TestCommand
+        {
+            get;
+            private set;
+        }
+        /// <summary>
+        /// Command to start clicking where specified
+        /// </summary>
+        public ICommand ClickCommand
+        {
+            get;
+            private set;
+        }
+
+        /// <summary>
+        /// Empty List command
+        /// </summary>
+        public ICommand RemoveAllCommand
+        {
+            get;
+            private set;
+        }
+
+        /// <summary>
+        /// Remove specified index command
+        /// </summary>
+        public ICommand RemoveAtCommand
+        {
+            get;
+            private set;
+        }
+
+        /// <summary>
+        /// Remove element at front of list command
+        /// </summary>
+        public ICommand RemoveTopCommand
+        {
+            get;
+            private set;
+        }
+
+        /// <summary>
+        /// Remove element at end of list command
+        /// </summary>
+        public ICommand RemoveBottomCommand
+        {
+            get;
+            private set;
+        }
+
+        #endregion
 
         #region Methods
 
         /// <summary>
         /// Clicks the mouse at all points specified in AllPoints
         /// </summary>
-        public void ClickAllPoints()
+        private void ClickAllPoints()
         {
             int MOUSEEVENTF_LEFTDOWN = 0x02;
             int MOUSEEVENTF_LEFTUP = 0x04;
             int MOUSEEVENTF_RIGHTDOWN = 0x08;
             int MOUSEEVENTF_RIGHTUP = 0x10;
-          
+            StateofWindow = WindowState.Minimized;
             //Call the imported function to click the mouse
             foreach(Point p in AllPoints)
             {
@@ -238,20 +279,29 @@ namespace MyAutoClicker.ViewModels
         /// <summary>
         /// Tests method, will move to unit test later
         /// </summary>
-        public void Test()
+        private void Test()
         {
             Console.WriteLine("You have clicked the button {0} times", clickNumber++);
         }
 
-        #endregion
+        /// <summary>
+        /// Removes the point from the specified index, checking for bounds
+        /// </summary>
+        /// <param name="index"></param>
+        private void RemoveAt(int index)
+        {
+            if (index >= AllPoints.Count || index < 0) return;
+            AllPoints.RemoveAt(index);
+        }
 
+        #endregion
 
         #region MouseHooks
 
         /// <summary>
         /// Suscribes to listen to global mouse clicks
         /// </summary>
-        public void Subscribe()
+        private void Subscribe()
         {
             AbletoRun = false;
             // Note: for the application hook, use the Hook.AppEvents() instead
@@ -266,7 +316,8 @@ namespace MyAutoClicker.ViewModels
         /// </summary>
         private void GlobalHookKeyPress(object sender, KeyPressEventArgs e)
         {
-            Console.WriteLine("KeyPress: \t{0}", e.KeyChar);
+            //TODO for adding shortcuts
+                    
         }
 
         /// <summary>
@@ -284,7 +335,7 @@ namespace MyAutoClicker.ViewModels
         /// <summary>
         /// Unsuscribes listener, no longer cares when a key or mouse is pressed/clicked
         /// </summary>
-        public void Unsubscribe()
+        private void Unsubscribe()
         {
             SelectingPoints = false;
             AbletoRun = true;
@@ -309,6 +360,5 @@ namespace MyAutoClicker.ViewModels
             }
         }
         #endregion
-
     }
 }

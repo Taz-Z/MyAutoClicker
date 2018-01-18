@@ -58,11 +58,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Commands\ClickLocationUpdateCommand.cs" />
-    <Compile Include="Commands\DoClicksCommand.cs" />
-    <Compile Include="Commands\GeneralCommand.cs" />
-    <Compile Include="Commands\ListSaveCommand.cs" />
-    <Compile Include="Commands\TestCommand.cs" />
+    <Compile Include="Commands\RelayCommand.cs" />
     <Compile Include="Converters\InverseBooleanConverter.cs" />
     <Compile Include="ViewModels\ClickLocationViewModel.cs" />
     <Compile Include="Views\ViewFactory.cs" />

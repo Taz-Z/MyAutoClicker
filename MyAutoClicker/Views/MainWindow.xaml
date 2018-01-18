@@ -6,37 +6,37 @@
         xmlns:local="clr-namespace:MyAutoClicker"
         mc:Ignorable="d"
         ResizeMode="NoResize"
-        WindowState="{Binding WindowState, Mode=TwoWay}"
+        WindowState="{Binding StateofWindow, Mode=TwoWay}"
         Title="AutoClicker" Height="500" Width="500">
     <Window.Resources>
         <local:InverseBooleanConverter x:Key="InverseBooleanConverter" />
     </Window.Resources>
-    <DockPanel>
+    <DockPanel Background="#142634">
         <UniformGrid DockPanel.Dock="Top" Rows="2" Columns="2" Margin="25,25,25,6.75">
-            <Button Content="Set Mouse Location" Grid.Column="0" Margin="0,10,10,10" Command ="{Binding ChooseClickCommand}" IsEnabled="{Binding SelectingPoints, Converter={StaticResource InverseBooleanConverter}}"></Button>
-            <Button Content="Run" Grid.Column="1" Grid.Row="1" Margin="0,10,10,10" Command="{Binding ClickCommand}" IsEnabled="{Binding AbletoRun}"></Button>
-            <Button Content="Save Mouse Locations" Grid.Column="0" Grid.Row="2" Margin="0,10,10,10" Command="{Binding SaveClickCommand}" IsEnabled="{Binding SelectingPoints}"></Button>
-            <DockPanel Grid.Column="2" Grid.Row="2" Margin="10,10,10,10" >
+            <Button Background="#BDC7C1" Content="Set Mouse Location" Grid.Column="0" Margin="0,10,10,10" Command ="{Binding ChooseClickCommand}" IsEnabled="{Binding SelectingPoints, Converter={StaticResource InverseBooleanConverter}}"></Button>
+            <Button Background="#BDC7C1" Content="Run" Grid.Column="1" Grid.Row="1" Margin="0,10,0,10" Command="{Binding ClickCommand}" IsEnabled="{Binding AbletoRun}"></Button>
+            <Button Background="#BDC7C1" Content="Save Mouse Locations" Grid.Column="0" Grid.Row="2" Margin="0,10,10,10" Command="{Binding SaveClickCommand}" IsEnabled="{Binding SelectingPoints}"></Button>
+            <DockPanel Grid.Column="2" Grid.Row="2" Margin="10,10,0,10" Background="#BDC7C1" >
                 <TextBlock DockPanel.Dock="Top" TextAlignment="Center">Time (in miliseconds) between clicks</TextBlock>
                 <UniformGrid Columns="2" DockPanel.Dock="Bottom">
                     <StackPanel Orientation="Horizontal" Margin="10,10,0,10">
-                        <TextBlock Text="From"></TextBlock>
+                        <TextBlock Text="From: "></TextBlock>
                         <TextBox MinWidth="50" Text="{Binding LowerTimeRange}"></TextBox>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" Margin="0,10,10,10">
-                        <TextBlock Text="To"></TextBlock>
+                        <TextBlock Text="To: "></TextBlock>
                         <TextBox MinWidth="50" Text ="{Binding UpperTimeRange}"></TextBox>
                     </StackPanel>
                 </UniformGrid>
             </DockPanel>
         </UniformGrid>
         <UniformGrid DockPanel.Dock="Left" Rows="5" Margin="25,0,25,6.75">
-            <Button Content="Remove from position" Grid.Row="1" Margin="0,25,0,0" Command="{Binding RemoveAtCommand}"></Button>
-            <TextBox Margin="0,0,0,25" MinWidth="100" Grid.Row="2" Text="{Binding Position}"></TextBox>
-            <Button Content="Remove From Bottom" Margin="0,0,0,25" Grid.Row="3" Command="{Binding RemoveBottomCommand}"></Button>
-            <Button Content="Remove From Top" Margin="0,0,0,25" Grid.Row="4" Command="{Binding RemoveTopCommand}"></Button>
-            <Button Content="Remove all" Margin="0,0,0,25" Grid.Row="5" Command ="{Binding RemoveAllCommand}"></Button>
+            <Button Background="#BDC7C1" Content="Remove from position" Grid.Row="1" Margin="0,25,0,0" Command="{Binding RemoveAtCommand}" IsEnabled="{Binding AbletoRun}"></Button>
+            <TextBox Margin="0,0,0,25" MinWidth="100" Grid.Row="2" TextAlignment="Center" FontSize="25" Text="{Binding Position}"></TextBox>
+            <Button Background="#BDC7C1" Content="Remove From Bottom" Margin="0,0,0,25" Grid.Row="3" Command="{Binding RemoveBottomCommand}" IsEnabled="{Binding AbletoRun}"></Button>
+            <Button Background="#BDC7C1" Content="Remove From Top" Margin="0,0,0,25" Grid.Row="4" Command="{Binding RemoveTopCommand}" IsEnabled="{Binding AbletoRun}"></Button>
+            <Button Background="#BDC7C1" Content="Remove all" Margin="0,0,0,25" Grid.Row="5" Command ="{Binding RemoveAllCommand}" IsEnabled="{Binding AbletoRun}"></Button>
         </UniformGrid>
-        <ListBox ItemsSource="{Binding Path=AllPoints}" Margin="0,25,25,30.75" DockPanel.Dock="Left"/>
+        <ListBox Background="#BDC7C1" ItemsSource="{Binding Path=AllPoints}" Margin="0,25,25,30.75" DockPanel.Dock="Left"/>
     </DockPanel>
 </Window>

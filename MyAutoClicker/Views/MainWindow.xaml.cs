@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Windows;
-using System.Windows.Forms;
 using MyAutoClicker.ViewModels;
 
 namespace MyAutoClicker.Views
