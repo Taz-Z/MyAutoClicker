@@ -32,7 +32,7 @@
         </UniformGrid>
         <UniformGrid DockPanel.Dock="Left" Rows="5" Margin="25,0,25,6.75">
             <Button Background="#BDC7C1" Content="Remove from position" Grid.Row="1" Margin="0,25,0,0" Command="{Binding RemoveAtCommand}" IsEnabled="{Binding AbletoRun}"></Button>
-            <TextBox Margin="0,0,0,25" MinWidth="100" Grid.Row="2" TextAlignment="Center" FontSize="25" Text="{Binding Position}"></TextBox>
+            <TextBox Margin="0,0,0,25" MinWidth="100" Grid.Row="2" TextAlignment="Center" FontSize="18" FontWeight="UltraLight" Text="{Binding Position}"></TextBox>
             <Button Background="#BDC7C1" Content="Remove From Bottom" Margin="0,0,0,25" Grid.Row="3" Command="{Binding RemoveBottomCommand}" IsEnabled="{Binding AbletoRun}"></Button>
             <Button Background="#BDC7C1" Content="Remove From Top" Margin="0,0,0,25" Grid.Row="4" Command="{Binding RemoveTopCommand}" IsEnabled="{Binding AbletoRun}"></Button>
             <Button Background="#BDC7C1" Content="Remove all" Margin="0,0,0,25" Grid.Row="5" Command ="{Binding RemoveAllCommand}" IsEnabled="{Binding AbletoRun}"></Button>
