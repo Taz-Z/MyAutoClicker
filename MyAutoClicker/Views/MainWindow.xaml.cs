@@ -17,7 +17,7 @@ namespace MyAutoClicker.Views
         public MainWindow()
         {
             InitializeComponent();
-            DataContext = new ClickLocationViewModel();
+            DataContext = new ClickPointViewModel();
         }
     }
 }

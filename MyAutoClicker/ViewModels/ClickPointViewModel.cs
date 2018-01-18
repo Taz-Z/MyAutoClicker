@@ -5,25 +5,22 @@ using System.Windows.Input;
 using Gma.System.MouseKeyHook;
 using System.Windows.Forms;
 using System.Windows;
-using System.Collections.ObjectModel;
 using System.Runtime.InteropServices;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.Windows;
 
 namespace MyAutoClicker.ViewModels
 {
-    class ClickLocationViewModel : INotifyPropertyChanged
+    class ClickPointViewModel : INotifyPropertyChanged
     {
-        private MainModel clickLocation;
+        #region Variables
+
+        private ClickPointModel clickPoint;
         private IKeyboardMouseEvents m_GlobalHook;
-        private int lowerTimeRange;
-        private int upperTimeRange;
-        private bool selectingPoints;
-        private bool abletoRun;
-        private int position;
         private int clickNumber; //For testing purposed, remove later
         private WindowState windowState;
+
+        #endregion
 
         /// <summary>
         /// Used to manipulate mouse 
@@ -31,131 +28,35 @@ namespace MyAutoClicker.ViewModels
         [DllImport("user32.dll", CharSet = CharSet.Auto, CallingConvention = CallingConvention.StdCall)]
         public static extern void mouse_event(long dwFlags, long dx, long dy, long cButtons, long dwExtraInfo);
 
+        #region Constructors
         /// <summary>
         /// Initializes the view model, sets commands and defaults
         /// </summary>
-        public ClickLocationViewModel()
+        public ClickPointViewModel()
         {
+            clickPoint = new ClickPointModel();
             ChooseClickCommand = new RelayCommand(canExecute => true, Execute => Subscribe());
             SaveClickCommand = new RelayCommand(canExecute => true, Execute => Unsubscribe());
             TestCommand = new RelayCommand(canExecute => true, Execute => Test());
             ClickCommand = new RelayCommand(canExecute => true, Execute => ClickAllPoints());
-            RemoveAtCommand = new RelayCommand(canExecute => true, Execute => RemoveAt(Position - 1));
+            RemoveAtCommand = new RelayCommand(canExecute => true, Execute => RemoveAt(ClickPoint.Position - 1));
             RemoveTopCommand = new RelayCommand(canExecute => true, Execute => RemoveAt(0));
-            RemoveBottomCommand = new RelayCommand(canExecute => true, Execute => RemoveAt(AllPoints.Count - 1));
-            RemoveAllCommand = new RelayCommand(canExecute => true, Execute => AllPoints.Clear());
-            AllPoints = new ObservableCollection<Point>();
-            clickLocation = new MainModel();
-
-            LowerTimeRange = 0;
-            UpperTimeRange = 1000;
-            Position = 1;
-            SelectingPoints = false;
-            AbletoRun = false;
+            RemoveBottomCommand = new RelayCommand(canExecute => true, Execute => RemoveAt(ClickPoint.AllPoints.Count - 1));
+            RemoveAllCommand = new RelayCommand(canExecute => true, Execute => ClickPoint.AllPoints.Clear());
 
         }
+
+        #endregion
 
         #region Properties
-
-        /// <summary>
-        /// Bound to update ListBox
-        /// </summary>
-        public ObservableCollection<Point> AllPoints
-        {
-            set;
-            get;
-        }
-
-        /// <summary>
-        /// Model
-        /// <summary>
-        /// Lower Time Range
-        /// </summary>
-        public int LowerTimeRange
-        {
-            get
-            {
-                return lowerTimeRange;
-            }
-            set
-            {
-                lowerTimeRange = value;
-                OnPropertyChanged("LowerRangeTime");
-            }
-        }
-
-        /// <summary>
-        /// Upper Time Range
-        /// </summary>
-        public int UpperTimeRange
-        {
-            get
-            {
-                return upperTimeRange;
-            }
-            set
-            {
-                upperTimeRange = value;
-                OnPropertyChanged("UpperRangeTime");
-            }
-        }
-
-        /// <summary>
-        /// Button Enabler/Disabler
-        /// </summary>
-        public bool SelectingPoints
-        {
-            get
-            {
-                return selectingPoints;
-            }
-            set
-            {
-                selectingPoints = value;
-                OnPropertyChanged("SelectingPoints");
-            }
-        }
-
-        /// <summary>
-        /// Button Enabler/Disabler
-        /// </summary>
-        public bool AbletoRun
-        {
-            get
-            {
-                return abletoRun; ;
-            }
-            set
-            {
-                abletoRun = value;
-                OnPropertyChanged("AbletoRun");
-            }
-        }
-
-        /// <summary>
-        /// Position of element user wants to delete
-        /// </summary>
-        public int Position
-        {
-            get
-            {
-                return position;
-            }
-            set
-            {
-                position = value;
-                OnPropertyChanged("Position");
-            }
-        }
-
         /// <summary>
         /// Model obj
         /// </summary>
-        public MainModel CurrentClickLocation
+        public ClickPointModel ClickPoint
         {
             get
             {
-                return clickLocation;
+                return clickPoint;
             }
         }
 
@@ -171,8 +72,6 @@ namespace MyAutoClicker.ViewModels
                 OnPropertyChanged("StateofWindow");
             }
         }
-
-        #endregion
 
         #region Commands
 
@@ -249,6 +148,8 @@ namespace MyAutoClicker.ViewModels
 
         #endregion
 
+        #endregion
+
         #region Methods
 
         /// <summary>
@@ -262,26 +163,14 @@ namespace MyAutoClicker.ViewModels
             int MOUSEEVENTF_RIGHTUP = 0x10;
             StateofWindow = WindowState.Minimized;
             //Call the imported function to click the mouse
-            foreach(Point p in AllPoints)
+            foreach(Point point in ClickPoint.AllPoints)
             {
-                int timeToWait = new Random().Next(lowerTimeRange, UpperTimeRange + 1); //gets a random time to wait between each click.
+                int timeToWait = new Random().Next(ClickPoint.LowerTimeRange, ClickPoint.UpperTimeRange + 1); //gets a random time to wait between each click.
                 Stopwatch stopwatch = new Stopwatch();
                 stopwatch.Start();
-                Console.WriteLine("On point " + p);
                 while (stopwatch.ElapsedMilliseconds < timeToWait) { } //Wait for a random amout of time
-                stopwatch.Stop();
-                stopwatch.Restart();
-                mouse_event(MOUSEEVENTF_LEFTDOWN | MOUSEEVENTF_LEFTUP, (long)p.X,  (long)p.Y, 0, 0);
-            }
-           
-        }
-
-        /// <summary>
-        /// Tests method, will move to unit test later
-        /// </summary>
-        private void Test()
-        {
-            Console.WriteLine("You have clicked the button {0} times", clickNumber++);
+                mouse_event(MOUSEEVENTF_LEFTDOWN | MOUSEEVENTF_LEFTUP, (long)point.X,  (long)point.Y, 0, 0);
+            } 
         }
 
         /// <summary>
@@ -290,11 +179,9 @@ namespace MyAutoClicker.ViewModels
         /// <param name="index"></param>
         private void RemoveAt(int index)
         {
-            if (index >= AllPoints.Count || index < 0) return;
-            AllPoints.RemoveAt(index);
+            if (index >= ClickPoint.AllPoints.Count || index < 0) return;
+            ClickPoint.AllPoints.RemoveAt(index);
         }
-
-        #endregion
 
         #region MouseHooks
 
@@ -303,12 +190,12 @@ namespace MyAutoClicker.ViewModels
         /// </summary>
         private void Subscribe()
         {
-            AbletoRun = false;
+            ClickPoint.AbletoRun = false;
             // Note: for the application hook, use the Hook.AppEvents() instead
             m_GlobalHook = Hook.GlobalEvents();
             m_GlobalHook.MouseDownExt += GlobalHookMouseDownExt;
-            m_GlobalHook.KeyPress += GlobalHookKeyPress;
-            
+            ///m_GlobalHook.KeyPress += GlobalHookKeyPress;
+            /// Uncomment above for keybinds
         }
 
         /// <summary>
@@ -317,7 +204,7 @@ namespace MyAutoClicker.ViewModels
         private void GlobalHookKeyPress(object sender, KeyPressEventArgs e)
         {
             //TODO for adding shortcuts
-                    
+
         }
 
         /// <summary>
@@ -325,9 +212,9 @@ namespace MyAutoClicker.ViewModels
         /// </summary>
         private void GlobalHookMouseDownExt(object sender, MouseEventExtArgs e)
         {
-            AbletoRun = false;
-            SelectingPoints = true;
-            AllPoints.Add(new Point(e.X, e.Y));
+            ClickPoint.AbletoRun = false;
+            ClickPoint.SelectingPoints = true;
+            ClickPoint.AllPoints.Add(new Point(e.X, e.Y));
             // uncommenting the following line will suppress the middle mouse button click
             // if (e.Buttons == MouseButtons.Middle) { e.Handled = true; }
         }
@@ -337,12 +224,13 @@ namespace MyAutoClicker.ViewModels
         /// </summary>
         private void Unsubscribe()
         {
-            SelectingPoints = false;
-            AbletoRun = true;
-            AllPoints.RemoveAt(AllPoints.Count - 1);
+            ClickPoint.SelectingPoints = false;
+            ClickPoint.AbletoRun = true;
+            ClickPoint.AllPoints.RemoveAt(ClickPoint.AllPoints.Count - 1); //Work around, removes the click point which is recorded when the button is clicked
+            //Unsuscribe
             m_GlobalHook.MouseDownExt -= GlobalHookMouseDownExt;
             m_GlobalHook.KeyPress -= GlobalHookKeyPress;
-            m_GlobalHook.Dispose();   
+            m_GlobalHook.Dispose();
         }
         #endregion
 
@@ -359,6 +247,18 @@ namespace MyAutoClicker.ViewModels
 
             }
         }
+        #endregion
+
+        #region Test Methods
+        /// <summary>
+        /// Tests method, will move to unit test later
+        /// </summary>
+        private void Test()
+        {
+            Console.WriteLine("You have clicked the button {0} times", clickNumber++);
+        }
+        #endregion
+
         #endregion
     }
 }

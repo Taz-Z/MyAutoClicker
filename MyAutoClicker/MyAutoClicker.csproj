@@ -63,7 +63,7 @@
     </ApplicationDefinition>
     <Compile Include="Commands\RelayCommand.cs" />
     <Compile Include="Converters\InverseBooleanConverter.cs" />
-    <Compile Include="ViewModels\ClickLocationViewModel.cs" />
+    <Compile Include="ViewModels\ClickPointViewModel.cs" />
     <Compile Include="Views\ViewFactory.cs" />
     <Page Include="Views\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -79,7 +79,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Models\MainModel.cs" />
+    <Compile Include="Models\ClickPointModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
