@@ -62,7 +62,6 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Commands\RelayCommand.cs" />
-    <Compile Include="Converters\InverseBooleanConverter.cs" />
     <Compile Include="ViewModels\ClickPointViewModel.cs" />
     <Compile Include="Views\ViewFactory.cs" />
     <Page Include="Views\MainWindow.xaml">

@@ -15,9 +15,6 @@ namespace MyAutoClicker.Models
         #region Vars
         private int lowerTimeRange;
         private int upperTimeRange;
-        private bool selectingPoints;
-        private bool abletoRun;
-        private int position;
         #endregion
 
         public ClickPointModel()
@@ -26,9 +23,7 @@ namespace MyAutoClicker.Models
 
             LowerTimeRange = 0;
             UpperTimeRange = 1000;
-            Position = 1;
-            SelectingPoints = false;
-            AbletoRun = false;
+
         }
 
         #region Properties
@@ -73,53 +68,6 @@ namespace MyAutoClicker.Models
             }
         }
 
-        /// <summary>
-        /// Button Enabler/Disabler
-        /// </summary>
-        public bool SelectingPoints
-        {
-            get
-            {
-                return selectingPoints;
-            }
-            set
-            {
-                selectingPoints = value;
-                OnPropertyChanged("SelectingPoints");
-            }
-        }
-
-        /// <summary>
-        /// Button Enabler/Disabler
-        /// </summary>
-        public bool AbletoRun
-        {
-            get
-            {
-                return abletoRun; ;
-            }
-            set
-            {
-                abletoRun = value;
-                OnPropertyChanged("AbletoRun");
-            }
-        }
-
-        /// <summary>
-        /// Position of element user wants to delete
-        /// </summary>
-        public int Position
-        {
-            get
-            {
-                return position;
-            }
-            set
-            {
-                position = value;
-                OnPropertyChanged("Position");
-            }
-        }
 
         #endregion
 
