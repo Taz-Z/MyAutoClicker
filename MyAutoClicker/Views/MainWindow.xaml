@@ -38,6 +38,6 @@
             <Button Background="#BDC7C1" Content="Remove From Top" Margin="0,0,0,25" Grid.Row="4" Command="{Binding RemoveTopCommand}" IsEnabled="{Binding ReadytoSelect}"></Button>
             <Button Background="#BDC7C1" Content="Remove all" Margin="0,0,0,25" Grid.Row="5" Command ="{Binding RemoveAllCommand}" IsEnabled="{Binding ReadytoSelect}"></Button>
         </UniformGrid>
-        <ListBox Background="#5A666B" ItemsSource="{Binding Path=ClickPoint.AllPoints}" Margin="0,25,25,30.75" DockPanel.Dock="Left"/>
+        <ListBox Background="#FF778083" ItemsSource="{Binding Path=ClickPoint.AllPoints}" Margin="0,25,25,30.75" DockPanel.Dock="Left"/>
     </DockPanel>
 </Window>
