@@ -4,11 +4,11 @@ using MyAutoClicker.Models;
 using System.Windows.Input;
 using Gma.System.MouseKeyHook;
 using System.Windows.Forms;
-using System.Windows;
 using System.Runtime.InteropServices;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using System.Drawing;
 
 namespace MyAutoClicker.ViewModels
 {
@@ -18,12 +18,11 @@ namespace MyAutoClicker.ViewModels
 
         private ClickPointModel clickPoint;
         private IKeyboardMouseEvents m_GlobalHook;
-        private WindowState windowState;
+        private System.Windows.WindowState windowState;
         private int position;
         private bool readytoSelect;
         private bool abletoRun;
         private bool abletoSave;
-        private string text;
         private bool pause;
 
         #endregion
@@ -71,7 +70,7 @@ namespace MyAutoClicker.ViewModels
             }
         }
 
-        public WindowState StateofWindow
+        public System.Windows.WindowState StateofWindow
         {
             get
             {
@@ -241,16 +240,43 @@ namespace MyAutoClicker.ViewModels
                        {
                            ReadytoSelect = true;
                            AbletoRun = true;
+                           pause = false;
                            return;
                        }
+                       Point randomPoint = GetRandomSurroundPoint(point);
+                       System.Windows.Forms.Cursor.Position = randomPoint;
                        int timeToWait = new Random().Next(ClickPoint.LowerTimeRange, ClickPoint.UpperTimeRange + 1); //gets a random time to wait between each click.
                        Stopwatch stopwatch = new Stopwatch();
                        stopwatch.Start();
                        while (stopwatch.ElapsedMilliseconds < timeToWait) { } //Wait for a random amout of time
-                       mouse_event(MOUSEEVENTF_LEFTDOWN | MOUSEEVENTF_LEFTUP, (long)point.X, (long)point.Y, 0, 0);
+                       Console.WriteLine("Clicking at {0}", randomPoint);
+                       mouse_event(MOUSEEVENTF_LEFTDOWN | MOUSEEVENTF_LEFTUP, (long)randomPoint.X, (long)randomPoint.Y, 0, 0);
                    }
                }
            });   
+        }
+
+        /// <summary>
+        /// Gets a random point from a 3 by 3 square with respect to the main point located in the middle
+        /// </summary>
+        /// <param name="point"></param>
+        /// <returns></returns>
+        private Point GetRandomSurroundPoint(Point point)
+        {
+
+            Point[] points =
+            {
+                new Point(point.X - 1, point.Y),
+                new Point(point.X + 1, point.Y),
+                new Point(point.X, point.Y - 1),
+                new Point(point.X, point.Y + 1),
+                new Point(point.X - 1, point.Y - 1),
+                new Point(point.X - 1, point.Y + 1),
+                new Point(point.X + 1, point.Y - 1),
+                new Point(point.X + 1, point.Y +1),
+                point
+            };
+            return points[new Random().Next(points.Length)];
         }
 
         /// <summary>
@@ -290,6 +316,7 @@ namespace MyAutoClicker.ViewModels
                 else if(AbletoSave)
                 {
                     pause = false;
+                    ClickAllPoints();
                 }
             }
         }
@@ -300,7 +327,7 @@ namespace MyAutoClicker.ViewModels
         private void GlobalHookMouseDownExt(object sender, MouseEventExtArgs e)
         {
             ReadytoSelect = false;
-            ClickPoint.AllPoints.Add(new Point(e.X, e.Y));
+            ClickPoint.AllPoints.Add(new System.Drawing.Point(e.X, e.Y));
             // uncommenting the following line will suppress the middle mouse button click
             // if (e.Buttons == MouseButtons.Middle) { e.Handled = true; }
         }

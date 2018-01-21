@@ -3,9 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Drawing;
 using System.Windows;
 
 namespace MyAutoClicker.Models
@@ -19,7 +17,7 @@ namespace MyAutoClicker.Models
 
         public ClickPointModel()
         {
-            AllPoints = new ObservableCollection<Point>();
+            AllPoints = new ObservableCollection<System.Drawing.Point>();
 
             LowerTimeRange = 0;
             UpperTimeRange = 1000;
@@ -31,7 +29,7 @@ namespace MyAutoClicker.Models
         /// <summary>
         /// Bound to update ListBox
         /// </summary>
-        public ObservableCollection<Point> AllPoints
+        public ObservableCollection<System.Drawing.Point> AllPoints
         {
             set;
             get;
